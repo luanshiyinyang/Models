@@ -1,0 +1,4 @@
+本文件夹放置Caltech101数据集
+下载地址如下
+http://www.vision.caltech.edu/Image_Datasets/Caltech101/101_ObjectCategories.tar.gz
+下载后解压至当前文件夹即可
