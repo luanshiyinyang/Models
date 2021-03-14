@@ -8,10 +8,18 @@
 
 本项目使用Keras复现AlexNet并在数据集上进行效果测试。
 
+- 论文标题
+
+	ImageNet Classification with Deep Convolutional Neural Networks
+- 论文地址
+	
+	https://papers.nips.cc/paper/4824-imagenet-classification-with-deep-convolutional-neural-networks.pdf
+- 论文源码
+
+	https://github.com/pytorch/vision/blob/master/torchvision/models/alexnet.py（PyTorch实现）
+
 
 ## 网络说明
-### 参考论文
-官网地址：[论文地址](https://papers.nips.cc/paper/4824-imagenet-classification-with-deep-convolutional-neural-networks.pdf)
 
 ### 结构说明
 
@@ -23,7 +31,8 @@
 
 在该图中，大体的网络配置已经非常清晰，激活函数全部使用了Relu函数并使用了LRN进行参数规范化。
 
-### **主要贡献**
+### 主要贡献
+
 尽管这个结构在今天看来非常基础，但正是这样的结构为后面诸多复杂卷积神经网络提供了基础，在卷积神经网络的发展进程中占据里程碑式的地位。其主要的几个贡献如下。
 - 首次将卷积神经网络应用于计算机视觉领域的海量图像数据集ImageNet（共1000类图像，总数约128多万张），揭示了卷积神经网络的强大学习能力和表示能力。当然，海量的数据也使得卷积神经网络免于过拟合。自此，卷积神经网络在计算机视觉领域开始了“井喷”式的研究。
 - 利用GPU实现网络训练，大大加快了神经网络的训练速度。
@@ -31,9 +40,11 @@
 
 
 ## 代码实现
+
 最新版本的Keras等框架已经不再提供LRN了，后面VGGNet等证明LRN并没有想象中那么好的效果，现在流行的规范化选择是BN，所以实现时使用BN层进行规范化。
 
 由于AlexNet的局限性（参数不少、效果不比后来的很多卷积神经网络），现今的主流框架很多已经不再封装AlexNet了。下面主要实现AlexNet基本结构，去除LRN规范化。
+
 ```python
 def AlexNet(input_shape=(224, 224, 3), n_classes=1000):
 	"""
@@ -68,11 +79,11 @@ def AlexNet(input_shape=(224, 224, 3), n_classes=1000):
 	return model
 ```
 
-模型训练
+**模型训练**
 
 数据集使用[Caltech101数据集](http://www.vision.caltech.edu/Image_Datasets/Caltech101/)，比较性能，不进行数据增广（注意删除干扰项）。Batch大小定为32。损失函数使用经典分类的交叉熵损失函数，优化函数使用Adam，激活函数使用Relu。（这都是比较流行的选择）
 
-训练结果
+**训练结果**
 
 具体训练结果见文末Github的notebook文件。
 ![损失图像](./assets/loss.png)
@@ -82,4 +93,4 @@ def AlexNet(input_shape=(224, 224, 3), n_classes=1000):
 
 
 ## 补充说明
-尽管今天看来，AlexNet已经不太实用，但是当时的很多思路影响了后来很多卷积神经网络的设计思路，如使用Relu作为激活函数、输出标准化。使用dropout防止过拟合。本项目源码上传至[我的Github](https://github.com/luanshiyinyang/AlexNet)，欢迎Star或者Fork。
+尽管今天看来，AlexNet已经不太实用，但是当时的很多思路影响了后来很多卷积神经网络的设计思路，如使用Relu作为激活函数、输出标准化。使用dropout防止过拟合。

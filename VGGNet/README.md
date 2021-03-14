@@ -2,12 +2,21 @@
 ## 简介
  纵观如今DeepLearning的研究领域，主要的研究领域还是CV和NLP及其衍生领域。CV的常见神经网络中，VGGNet在卷积神经网络的发展过程有着举足轻重的作用，它作为着LeNet与Resnet的承接者，直到今天类VGG结构仍在图像领域发挥着巨大的作用。由于最近的课题设计到VGGNet和Resnet的研究，在本项目着重实现每一个版本的VGGNet兼以近年的优化方式优化VGGNet。
 
+- 论文标题
+
+	Very deep convolutional networks for large-scale image recognition
+- 论文地址
+
+	https://arxiv.org/abs/1409.1556
+- 论文源码
+
+	https://github.com/pytorch/vision/blob/master/torchvision/models/vgg.py（PyTorch实现）
 
 ## 网络说明
-### 参考论文
-[Arxiv地址](https://arxiv.org/pdf/1409.1556.pdf)
+
 ### 设计背景
 VGGNet的基本模型主要由牛津大学的几何视觉组（Visual Geometry Group）于2014年提出，这也是网络名称的由来，其获得了2014年ILSVRC竞赛的分类任务的第二名和定位任务的第一名，其最伟大之处在于证明使用3*3的小卷积核通过多层堆叠可以有效提高模型性能及泛化能力，这也是后面较长时间CNN倾向于小卷积核的原因之一。
+
 ### 结构说明
 
 ![](./assets/stru.jpg)
@@ -16,7 +25,8 @@ VGGNet的基本模型主要由牛津大学的几何视觉组（Visual Geometry G
 
 如图所示，共有6种网络配置，其实按照层数来说只有11层、13层、16层、19层四种，主要区别在于11层网络尝试了使用Local Response Normalisation（LRN），结果并没有提高网络性能，另一个区别就是16层（这就是著名的VGG16）结构在最后三个block使用不同的卷积核大小。网络上可以找到很多概念结构图，上面列举了一个很经典的。
 
-### **主要贡献**
+### 主要贡献
+
 **使用3\*3的小卷积核堆叠。**
 
 为什么使用3\*3的小卷积核？这主要基于两个考虑，不过解释之前必须明确一个概念，两个3\*3卷积核可以获得一个5\*5的卷积核视野，三个3\*3的卷积核堆叠可以获得7\*7的感受野。（注意，之间不能有池化层）
@@ -28,7 +38,9 @@ VGGNet的基本模型主要由牛津大学的几何视觉组（Visual Geometry G
 - 使用1\*1小卷积核也是为了增加非线性变换次数。
 
 ## 代码实现
+
 由于代码过多，只列举VGG16和VGG19的实现代码，其余见文末Github。
+
 ```python
 def VGG16D(input_shape=(224, 224, 3), n_classes=1000):
 	"""
@@ -131,6 +143,7 @@ def VGG19(input_shape=(224, 224, 3), n_classes=1000):
 模型的训练及测试均在[Caltech101数据集](http://www.vision.caltech.edu/Image_Datasets/Caltech101/)上进行（该数据集由李飞飞整理，含一个干扰项）。为了比较模型性能，不进行数据增广，采用同样的优化函数Adam。模型训练选取适中batch_size，为128，使用了BN和Dropout等训练技巧（这不影响核心网络结构）。后面的深层模型如VGG16和VGG19不使用Dropout或者BN难以训练，每个block输出时使用BN层。
 
 **训练结果**
+
 损失图像
 
 ![](https://img-blog.csdnimg.cn/20190624183229873.png)
@@ -150,4 +163,4 @@ def VGG19(input_shape=(224, 224, 3), n_classes=1000):
 
 
 ## 补充说明
-本项目实现基于Keras2(TensorFlow后端)以及Python3。具体代码已经开源于[我的Github](https://github.com/luanshiyinyang/VGGNet)，欢迎star或者fork。训练过程在ipynb文件内可见。如有疏漏，欢迎评论指出。
+本项目实现基于Keras2(TensorFlow后端)以及Python3。如有疏漏，欢迎评论指出。
